@@ -7,10 +7,8 @@ const colors = ["#1dccc7", "#ffce00", "#9076ff", "#fe3e3e", "#3efe94", "#3d30ec"
 ///////////////////////////////
 // Custom components
 
-
-@Component('tileData')
-export class TileData {
-  color: number
+@Component('tileFlag')
+export class TileFlag {
 }
 
 @Component('beat')
@@ -27,7 +25,7 @@ export class Beat {
 ///////////////////////////
 // Entity groups
 
-const tiles = engine.getComponentGroup(TileData)
+const tiles = engine.getComponentGroup(TileFlag)
 
 ///////////////////////////
 // Systems
@@ -39,7 +37,6 @@ export class changeColor implements ISystem {
     if (beat.timer < 0){
       beat.timer = beat.interval
       for (let tile of tiles.entities) {
-        let tileData = tile.get(TileData)
         const colorNum = Math.floor(Math.random() * colors.length)
         tile.set(tileMaterials[colorNum])
       }
@@ -58,7 +55,7 @@ engine.addSystem(new changeColor)
 let tileMaterials = []
 for (let i = 0; i < colors.length; i ++){
   let material = new Material()
-  material.albedoColor = colors[i]
+  material.albedoColor = Color3.FromHexString(colors[i])
   tileMaterials.push(material)
 }
 
@@ -71,7 +68,7 @@ for (let i = 0; i < colors.length; i ++){
     tile.get(Transform).scale.setAll(2)
     tile.get(Transform).position.set((x * 2) + 1, 0, (z * 2) + 1)
     tile.get(Transform).rotation.setEuler(90, 0, 0)
-    tile.set(new TileData())
+    tile.set(new TileFlag())
     const colorNum = Math.floor(Math.random() * colors.length)
     tile.set(tileMaterials[colorNum])
     engine.addEntity(tile)

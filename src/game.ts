@@ -63,12 +63,13 @@ for (let i = 0; i < colors.length; i ++){
 [0, 1, 2, 3, 4].forEach(x => {
   [0, 1, 2, 3, 4].forEach(z => {
     const tile = new Entity()
-    tile.set(new PlaneShape())
-    tile.set(new Transform())
-    tile.get(Transform).scale.setAll(2)
-    tile.get(Transform).position.set((x * 2) + 1, 0, (z * 2) + 1)
-    tile.get(Transform).rotation.setEuler(90, 0, 0)
-    tile.set(new TileFlag())
+    tile.add(new PlaneShape())
+    tile.add(new Transform({
+      position: new Vector3((x * 2) + 1, 0, (z * 2) + 1),
+      rotation: Quaternion.Euler(90, 0, 0),
+      scale: new Vector3(2, 2, 2)
+    }))
+    tile.add(new TileFlag())
     const colorNum = Math.floor(Math.random() * colors.length)
     tile.set(tileMaterials[colorNum])
     engine.addEntity(tile)
@@ -82,10 +83,11 @@ trevor.add(new GLTFShape("models/Trevor.glb"))
 const clipDance = new AnimationClip("Armature_Idle")
 trevor.get(GLTFShape).addClip(clipDance)
 clipDance.play()
-trevor.add(new Transform())
-trevor.get(Transform).position.set(5, 0.1, 5)
-trevor.get(Transform).rotation.setEuler(0, -90, 0)
-trevor.get(Transform).scale.setAll(1.5)
+trevor.add(new Transform({
+  position: new Vector3(5, 0.1, 5),
+  rotation: Quaternion.Euler(0, -90, 0),
+  scale: new Vector3(1.5, 1.5, 1.5)
+}))
 
 engine.addEntity(trevor)
 
